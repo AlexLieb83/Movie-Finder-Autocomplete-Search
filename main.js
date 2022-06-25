@@ -1,10 +1,8 @@
-const { response } = require("express");
-
 $(document).ready(function () {
   $("#title").autocomplete({
-    source: async function (req, res) {
+    source: async function (request, response) {
       let data = await fetch(
-        `http://localhost:3000/search?query=${request.term}`
+        `http://localhost:8000/search?query=${request.term}`
       )
         .then((results) => results.json())
         .then((results) =>
@@ -17,16 +15,17 @@ $(document).ready(function () {
           })
         );
       response(data);
+      //console.log(response)
     },
     minLength: 2,
     select: function (event, ui) {
       console.log(ui.item.id);
-      fetch(`http://localhost:3000/get/${ui.item.id}`)
+      fetch(`http://localhost:8000/get/${ui.item.id}`)
         .then((result) => result.json())
         .then((result) => {
           $("#cast").empty();
           result.cast.forEach((cast) => {
-            $(cast).append(`<li>${cast}</li>`);
+            $("#cast").append(`<li>${cast}</li>`);
           });
           $("img").attr("src", result.poster);
         });
