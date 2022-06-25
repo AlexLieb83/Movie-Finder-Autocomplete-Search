@@ -4,7 +4,7 @@ $(document).ready(function () {
   $("#title").autocomplete({
     source: async function (req, res) {
       let data = await fetch(
-        `http://localhost:8001/search?query=${request.term}`
+        `http://localhost:3000/search?query=${request.term}`
       )
         .then((results) => results.json())
         .then((results) =>
@@ -21,7 +21,7 @@ $(document).ready(function () {
     minLength: 2,
     select: function (event, ui) {
       console.log(ui.item.id);
-      fetch(`http://localhost:8001/get/${ui.item.id}`)
+      fetch(`http://localhost:3000/get/${ui.item.id}`)
         .then((result) => result.json())
         .then((result) => {
           $("#cast").empty();
